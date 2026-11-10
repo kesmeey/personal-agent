@@ -537,7 +537,16 @@ syncBuiltinESMExports();
       const expectedReply = `fakePi echoed PI_REQUEST_ID=${accepted.id}`;
       assert.equal(completed.status, "completed", JSON.stringify(completed));
       assert.equal(completed.reply, expectedReply, "真实 runner 必须读懂 fakePi 的 agent_end JSONL");
+      assert(completed.meta.timings.totalMs >= completed.meta.timings.runMs);
+      assert(completed.meta.timings.firstTextMs >= 0);
+      assert.equal(completed.meta.metrics.stopReason, "completed");
       assert(completed.meta.context.chars <= completed.meta.context.budgetChars);
+      const traces = jsonLines(path.join(root, "data", "runtime-traces.jsonl"));
+      assert.equal(traces.length, 1);
+      assert.equal(traces[0].requestId, accepted.id);
+      assert.equal(traces[0].metrics.modelCalls, 1);
+      assert.equal(traces[0].ok, true);
+      assert(!JSON.stringify(traces).includes(input.text), "诊断副本不得保存用户原文");
       assert.deepEqual(completed.source, source);
       await until(async () => expectStatus(await api(`/api/requests/${accepted.id}`), 200, "fixture settled request").request, (record) => Boolean(record.settledAt), "真实 main settledAt");
 

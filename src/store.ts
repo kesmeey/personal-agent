@@ -1,5 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
+import type { RequestTimings } from "./runtime-trace.ts";
+import type { RunMetrics } from "./execution-monitor.ts";
 import type { ContextStats } from "./context.ts";
 
 /**
@@ -14,6 +16,8 @@ export interface ChatMeta {
   durationMs?: number;
   tokens?: number;
   cost?: number;
+  timings?: RequestTimings;
+  metrics?: RunMetrics;
   context?: ContextStats;
   error?: string;
   requestId?: string;
