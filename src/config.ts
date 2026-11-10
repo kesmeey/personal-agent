@@ -23,6 +23,8 @@ export interface AgentConfig {
     maxConcurrent?: number;
     /** PA 单轮时限，不包含后台 CA 的执行时间。 */
     timeoutMs?: number;
+    /** 本轮额外背景的字符预算，不含用户原文及 pi 自己的历史。默认 12000。 */
+    maxBackgroundChars?: number;
     /** 观察到的工具调用预算；默认 100，0 关闭。 */
     maxToolCalls?: number;
     /** 相同参数、相同结果的连续工具失败阈值；默认 5，0 关闭。 */
@@ -135,6 +137,8 @@ export function loadConfig(path: string): AgentConfig {
   };
   positive("agent.timeoutMs", cfg.agent.timeoutMs);
   positive("agent.maxConcurrent", cfg.agent.maxConcurrent);
+  positive("agent.maxBackgroundChars", cfg.agent.maxBackgroundChars);
+  if (cfg.agent.maxBackgroundChars !== undefined && cfg.agent.maxBackgroundChars < 2) throw new Error(`config ${path}: agent.maxBackgroundChars 至少为 2`);
   for (const field of ["maxToolCalls", "maxRepeatedToolFailures"] as const) {
     const value = cfg.agent[field];
     if (value !== undefined && (!Number.isSafeInteger(value) || value < 0)) throw new Error(`config ${path}: agent.${field} 必须是非负整数`);

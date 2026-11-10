@@ -537,6 +537,7 @@ syncBuiltinESMExports();
       const expectedReply = `fakePi echoed PI_REQUEST_ID=${accepted.id}`;
       assert.equal(completed.status, "completed", JSON.stringify(completed));
       assert.equal(completed.reply, expectedReply, "真实 runner 必须读懂 fakePi 的 agent_end JSONL");
+      assert(completed.meta.context.chars <= completed.meta.context.budgetChars);
       assert.deepEqual(completed.source, source);
       await until(async () => expectStatus(await api(`/api/requests/${accepted.id}`), 200, "fixture settled request").request, (record) => Boolean(record.settledAt), "真实 main settledAt");
 

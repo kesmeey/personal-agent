@@ -4,6 +4,7 @@
     "workspace": "workspace",
     "maxConcurrent": 2,
     "timeoutMs": 180000,
+    "maxBackgroundChars": 12000,
     "maxToolCalls": 100,
     "maxRepeatedToolFailures": 5
   },

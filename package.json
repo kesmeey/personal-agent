@@ -18,6 +18,7 @@
     "selftest:requests": "node scripts/requests-selftest.mjs",
     "selftest:server-security": "node --test scripts/server-security-selftest.mjs",
     "selftest:runner": "node --test scripts/runner-selftest.mjs",
+    "selftest:context": "node --test scripts/context-selftest.mjs",
     "selftest:notion-cache": "node scripts/notion-memory-cache-selftest.mjs",
     "selftest:telegram": "node --test scripts/telegram-selftest.mjs",
     "selftest:background": "node scripts/background-selftest.mjs",

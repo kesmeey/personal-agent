@@ -263,6 +263,14 @@ config.agent.maxToolCalls 默认 100，观察到超额工具启动事件时停�
 
 运行 npm run selftest:runner 检查事件回放与假 pi 子进程，运行 npm run selftest:runner-background 检查请求身份、独立验收环境和超时恢复；均不调用真实模型。
 
+## 上下文装配与背景预算
+
+每轮将摘要、记忆、索引和后台任务状态装配为带来源的 JSON。优先保留在途任务与摘要，去重后按完整条目取舍；背景是参考数据，当前用户原文和执行协议单独保留。缺少事实原文时使用工具查询。
+
+config.agent.maxBackgroundChars 默认 12000，最小为 2，约束本层追加背景 JSON 的字符数；pi 历史和工具定义由 pi 管理，字符预算不冒充精确 Token 数。回复元数据记录预算、注入字符数、已选、省略和去重条目数。
+
+运行 npm run selftest:context 检查预算边界、优先级、去重和配置兼容；运行 npm run selftest:background 检查实际主程序是否串接背景统计。
+
 ## 一些取舍
 
 - **定时任务与普通对话用同一套工具**：交互消息优先执行，没排队的交互任务时才轮到定时任务。

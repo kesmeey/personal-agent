@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync, appendFileSync } from "node:fs";
 import path from "node:path";
+import type { ContextStats } from "./context.ts";
 
 /**
  * 对话记录：GUI 显示用的消息流水，追加写 JSONL。
@@ -13,6 +14,7 @@ export interface ChatMeta {
   durationMs?: number;
   tokens?: number;
   cost?: number;
+  context?: ContextStats;
   error?: string;
   requestId?: string;
   jobId?: string;
